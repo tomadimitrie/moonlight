@@ -1,0 +1,12 @@
+[package]
+name = "moonlight"
+version = "0.1.0"
+authors = ["Dimitrie-Toma Furdui <tomadimitrie@icloud.com>"]
+edition = "2018"
+
+[dependencies]
+moonlight-macros = { path = "./src/macros" }
+
+[lib]
+name = "moonlight"
+crate-type = ["staticlib"]

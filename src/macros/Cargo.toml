@@ -1,0 +1,12 @@
+[package]
+name = "moonlight-macros"
+version = "0.1.0"
+authors = ["Dimitrie-Toma Furdui <tomadimitrie@icloud.com>"]
+edition = "2018"
+
+[dependencies]
+syn = { version = "*", features = ["full"] }
+quote = "*"
+
+[lib]
+proc-macro = true
