@@ -18,6 +18,7 @@ func render(_ tree: UnsafePointer<NativeView>) {
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         run_app()
+        print(globalTree)
         end_app(globalTree?.pointer)
         return true
     }

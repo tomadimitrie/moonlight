@@ -8,20 +8,46 @@
 import Foundation
 
 struct View {
-    let attributes: [String]
+    let attributes: [Attribute<AttributeRepresentable>]
     let children: [Self]
     let pointer: UnsafePointer<NativeView>
 }
 
+protocol AttributeRepresentable {}
+
+extension String: AttributeRepresentable {}
+extension Int: AttributeRepresentable {}
+
+struct Attribute<T> {
+    let name: String
+    let value: T
+}
+
 extension View {
     static func from(pointer: UnsafePointer<NativeView>) -> Self {
-        let attributes = Array(UnsafeBufferPointer(
+        let attributesArray = Array(UnsafeBufferPointer(
             start: pointer.pointee.attributes_ptr,
             count: Int(pointer.pointee.attributes_size)
-        )).map { attribute -> String in
-            let cString = unsafeBitCast(attribute, to: UnsafePointer<CChar>.self)
-            let string = String(cString: cString)
-            return string
+        ))
+        let attributes = stride(from: 0, to: pointer.pointee.attributes_size, by: 3).map { index -> Attribute<AttributeRepresentable> in
+            let index = Int(index)
+            let namePtr = attributesArray[index]
+            let valuePtr = attributesArray[index.advanced(by: 1)]
+            let typePtr = attributesArray[index.advanced(by: 2)]
+            
+            let type = String(cString: unsafeBitCast(typePtr, to: UnsafePointer<CChar>.self))
+            let name = String(cString: unsafeBitCast(namePtr, to: UnsafePointer<CChar>.self))
+            let value: AttributeRepresentable
+            switch type {
+                case "String":
+                    value = String(cString: unsafeBitCast(valuePtr, to: UnsafePointer<CChar>.self))
+                case "usize":
+                    value = unsafeBitCast(valuePtr, to: UnsafePointer<Int>.self).pointee
+                default:
+                    fatalError("the type \(type) not supported yet")
+            }
+            
+            return Attribute(name: name, value: value)
         }
         let children = Array(UnsafeBufferPointer(
             start: pointer.pointee.children_ptr,
