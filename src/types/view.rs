@@ -1,10 +1,10 @@
-use crate::types::native_view::NativeView;
+use std::any::Any;
 
 pub trait View {
-    fn render(&self) -> Box<dyn View> {
-        unimplemented!()
+    fn render(&self) -> Option<Box<dyn View>> {
+        None
     }
-    fn to_native(&self) -> *const NativeView {
-        unimplemented!()
+    fn as_any(&self) -> Option<&dyn Any> {
+        None
     }
 }

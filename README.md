@@ -11,11 +11,7 @@ Pull requests welcome! If you want to help me build this project, let me know so
 3. Make sure `xcode-select -p` points to your Xcode location, NOT the command line tools Homebrew loves to install
 3. Add the iOS targets to `rustup` (i.e. `rustup target add aarch64-apple-ios x86_64-apple-ios`)
 4. Build the library (i.e. `cargo lipo` or `cargo lipo --release`)
-5. Drag the suitable file for your needs (simulator / physical device) into the Xcode project window (make sure you do NOT check "copy files if needed")
-   - you can find the files under `<project root>/<target>/debug/libmoonlight.a`
-   - I will automate this in the future
-   - This only needs to be done once, Xcode remembers the reference so whenever you rebuild the project the new output file will be used by Xcode
-6. Build and run the Xcode project
+5. Build and run the Xcode project
 
 # Done until now (iOS)
 - [x] Passing data to Swift through a C bridging header

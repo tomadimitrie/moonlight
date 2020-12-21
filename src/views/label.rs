@@ -1,11 +1,11 @@
 use crate::types::view::View;
 use std::any::Any;
 
-pub struct Container {
-    pub children: Vec<Box<dyn View>>,
+pub struct Label {
+    pub text: String,
 }
 
-impl View for Container {
+impl View for Label {
     fn as_any(&self) -> Option<&dyn Any> {
         Some(self)
     }

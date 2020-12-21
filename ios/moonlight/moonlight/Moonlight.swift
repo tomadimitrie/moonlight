@@ -11,6 +11,7 @@ struct View {
     let attributes: [Attribute<AttributeRepresentable>]
     let children: [Self]
     let pointer: UnsafePointer<NativeView>
+    let isWrapper: Bool
 }
 
 protocol AttributeRepresentable {}
@@ -55,6 +56,6 @@ extension View {
         )).map { child in
             Self.from(pointer: child!)
         }
-        return View(attributes: attributes, children: children, pointer: pointer)
+        return View(attributes: attributes, children: children, pointer: pointer, isWrapper: pointer.pointee.is_wrapper)
     }
 }
